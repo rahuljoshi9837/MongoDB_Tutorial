@@ -11,6 +11,10 @@ db.inventory.insertMany([
    { item: "mousepad", qty: 25, tags: ["gel", "blue"], size: { h: 19, w: 22.85, uom: "cm" } }
 ]);
 
+db.inventory.insertMany([
+   { name: "Rahul", age: 24 },
+   { name: "joshi", age: 24 }
+]);
 
 db.inventory.insertMany(
     [
@@ -29,3 +33,35 @@ db.inventory.find({});
 db.collection.insertOne()  => Inserts a single document into a collection.
 db.collection.insertMany() => Inserts multiple documents into a collection.
 
+#### Update a Single Document ####
+db.inventory.updateOne(
+   { item: "paper" },
+   {
+     $set: { "size.uom": "cm", status: "P" },
+     $currentDate: { lastModified: true }
+   }
+)
+
+##### Update Multiple Documents #####
+db.inventory.updateMany(
+   { "qty": { $lt: 45 } },
+   {
+     $set: { "size.uom": "in", status: "P" },
+     $currentDate: { lastModified: true }
+   }
+)
+
+##### Replace a Document #####
+db.inventory.replaceOne(
+   { item: "paper" },
+   { item: "paper", instock: [ { warehouse: "A", qty: 60 }, { warehouse: "B", qty: 40 } ] }
+)
+
+##### Delete Only One Document that Matches a Condition #####
+db.inventory.deleteOne( {"age":24});
+
+##### Delete All Documents that Match a Condition #####
+db.inventory.deleteMany( {"age":24});
+
+##### Delete All Documents #####
+db.inventory.deleteMany({})
